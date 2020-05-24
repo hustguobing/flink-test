@@ -1,0 +1,9 @@
+#local=DEBUG,out/local.log
+#com.wsd.itil=DEBUG,out/com.wsd.itil.log
+#taf-java-proxy=ERROR,out/taf-java-proxy.log
+
+monitor=DEBUG,/usr/local/app/shell_task/SparkStat/UIBaseStat/log/monitor.log
+local=DEBUG,/usr/local/app/shell_task/SparkStat/UIBaseStat/log/local.log
+com.wsd.itil=DEBUG,/usr/local/app/shell_task/SparkStat/UIBaseStat/log/com.wsd.itil.log
+taf-java-proxy=ERROR,/usr/local/app/shell_task/SparkStat/UIBaseStat/log/taf-java-proxy.log
+

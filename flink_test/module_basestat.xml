@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_basestat" default="compile.module.basestat">
+	<dirname property="module.basestat.basedir" file="${ant.file.module_basestat}" />
+
+	<property name="module.jdk.home.basestat" value="${project.jdk.home}" />
+	<property name="module.jdk.bin.basestat" value="${project.jdk.bin}" />
+	<property name="module.jdk.classpath.basestat" value="${project.jdk.classpath}" />
+
+	<property name="compiler.args.basestat"
+		value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}" />
+
+	<property name="basestat.output.dir"
+		value="${module.basestat.basedir}/out/production/BaseStat" />
+	<property name="basestat.testoutput.dir" value="${module.basestat.basedir}/out/test/BaseStat" />
+
+	<path id="basestat.module.bootclasspath">
+		<!-- Paths to be included in compilation bootclasspath -->
+	</path>
+
+	<path id="basestat.module.production.classpath">
+		<path refid="${module.jdk.classpath.basestat}" />
+		<path refid="library.jdk1.8.classpath" />
+		<path refid="library.hadoop-common-2.7.3.classpath" />
+		<path refid="library.hadoop-hdfs-2.7.3.classpath" />
+		<path refid="library.spark-core_2.11-2.0.0.classpath" />
+		<path refid="library.spark-catalyst_2.11-2.0.0.classpath" />
+		<path refid="library.spark-sql_2.11-2.0.0.classpath" />
+		<path refid="library.scala-sdk-2.10.4.classpath" />
+	</path>
+
+	<path id="basestat.runtime.production.module.classpath">
+		<pathelement location="${basestat.output.dir}" />
+		<path refid="library.jdk1.8.classpath" />
+		<path refid="library.hadoop-common-2.7.3.classpath" />
+		<path refid="library.hadoop-hdfs-2.7.3.classpath" />
+		<path refid="library.spark-core_2.11-2.0.0.classpath" />
+		<path refid="library.spark-catalyst_2.11-2.0.0.classpath" />
+		<path refid="library.spark-sql_2.11-2.0.0.classpath" />
+		<path refid="library.scala-sdk-2.10.4.classpath" />
+	</path>
+
+	<path id="basestat.module.classpath">
+		<path refid="${module.jdk.classpath.basestat}" />
+		<pathelement location="${basestat.output.dir}" />
+		<path refid="library.jdk1.8.classpath" />
+		<path refid="library.hadoop-common-2.7.3.classpath" />
+		<path refid="library.hadoop-hdfs-2.7.3.classpath" />
+		<path refid="library.spark-core_2.11-2.0.0.classpath" />
+		<path refid="library.spark-catalyst_2.11-2.0.0.classpath" />
+		<path refid="library.spark-sql_2.11-2.0.0.classpath" />
+		<path refid="library.scala-sdk-2.10.4.classpath" />
+	</path>
+
+	<path id="basestat.runtime.module.classpath">
+		<pathelement location="${basestat.testoutput.dir}" />
+		<pathelement location="${basestat.output.dir}" />
+		<path refid="library.jdk1.8.classpath" />
+		<path refid="library.hadoop-common-2.7.3.classpath" />
+		<path refid="library.hadoop-hdfs-2.7.3.classpath" />
+		<path refid="library.spark-core_2.11-2.0.0.classpath" />
+		<path refid="library.spark-catalyst_2.11-2.0.0.classpath" />
+		<path refid="library.spark-sql_2.11-2.0.0.classpath" />
+		<path refid="library.scala-sdk-2.10.4.classpath" />
+	</path>
+
+
+	<patternset id="excluded.from.module.basestat">
+		<patternset refid="ignored.files" />
+	</patternset>
+
+	<patternset id="excluded.from.compilation.basestat">
+		<patternset refid="excluded.from.module.basestat" />
+	</patternset>
+
+	<path id="basestat.module.sourcepath">
+		<dirset dir="${module.basestat.basedir}">
+			<include name="src" />
+		</dirset>
+	</path>
+
+
+	<target name="compile.module.basestat"
+		depends="compile.module.basestat.production,compile.module.basestat.tests"
+		description="Compile module BaseStat" />
+
+	<target name="compile.module.basestat.production" depends=""
+		description="Compile module BaseStat; production classes">
+		<mkdir dir="${basestat.output.dir}" />
+		<javac2 destdir="${basestat.output.dir}" debug="${compiler.debug}"
+			nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}"
+			fork="true" executable="${module.jdk.bin.basestat}/javac">
+			<compilerarg line="${compiler.args.basestat}" />
+			<bootclasspath refid="basestat.module.bootclasspath" />
+			<classpath refid="basestat.module.production.classpath" />
+			<src refid="basestat.module.sourcepath" />
+			<patternset refid="excluded.from.compilation.basestat" />
+		</javac2>
+
+		<copy todir="${basestat.output.dir}">
+			<fileset dir="${module.basestat.basedir}/src">
+				<patternset refid="compiler.resources" />
+				<type type="file" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="compile.module.basestat.tests" depends="compile.module.basestat.production"
+		description="compile module BaseStat; test classes" unless="skip.tests" />
+
+	<target name="clean.module.basestat" description="cleanup module">
+		<delete dir="${basestat.output.dir}" />
+		<delete dir="${basestat.testoutput.dir}" />
+	</target>
+</project>
